@@ -5,10 +5,11 @@
 #import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
 
+// This is only needed for printf
 #import <stdio.h>
-#import <stdlib.h>
 
 NSDictionary<NSString *, NSString *> *environment = nil;
+NSString *origin = nil;
 
 NSString *replaceEnvironmentVariables(NSString *inputString)
 {
@@ -44,14 +45,12 @@ NSString *replaceEnvironmentVariables(NSString *inputString)
             if (rangeLength == 0)
                 continue;
 
-            unichar *standardChars = (unichar *)malloc(rangeLength * sizeof(unichar));
-            if (standardChars == NULL)
-                continue;
+            NSMutableData *charBuffer = [NSMutableData dataWithLength:rangeLength*sizeof(unichar)];
+            unichar *standardChars = (unichar *)[charBuffer mutableBytes];
 
             [inputString getCharacters:standardChars range:standardRange];
 
             NSString *standardString = [NSString stringWithCharacters:standardChars length:rangeLength];
-            free(standardChars);
 
             [outputString appendString:standardString];
 
@@ -69,14 +68,12 @@ NSString *replaceEnvironmentVariables(NSString *inputString)
             if (rangeLength == 0)
                 continue;
 
-            unichar *varNameChars = (unichar *)malloc(rangeLength * sizeof(unichar));
-            if (varNameChars == NULL)
-                break;
+            NSMutableData *charBuffer = [NSMutableData dataWithLength:rangeLength*sizeof(unichar)];
+            unichar *varNameChars = (unichar *)[charBuffer mutableBytes];
 
             [inputString getCharacters:varNameChars range:varRange];
 
             NSString *varName = [NSString stringWithCharacters:varNameChars length:rangeLength];
-            free(varNameChars);
 
             NSString *varValue = [environment objectForKey:varName];
             if (varValue != nil)
@@ -87,19 +84,17 @@ NSString *replaceEnvironmentVariables(NSString *inputString)
 
         // The end is reached without a variable
         if (i == length-1) {
-            if (rangeLength == 0)
-                break;
+            // Include the current character too
+            rangeLength++;
 
             NSRange finalRange = NSMakeRange(rangeStart, rangeLength);
 
-            unichar *finalChars = (unichar *)malloc(rangeLength * sizeof(unichar));
-            if (finalChars == NULL)
-                break;
+            NSMutableData *charBuffer = [NSMutableData dataWithLength:rangeLength*sizeof(unichar)];
+            unichar *finalChars = (unichar *)[charBuffer mutableBytes];
 
             [inputString getCharacters:finalChars range:finalRange];
 
             NSString *finalString = [NSString stringWithCharacters:finalChars length:rangeLength];
-            free(finalChars);
 
             [outputString appendString:finalString];
         }
@@ -118,9 +113,14 @@ NSString *processFile(NSString *filePath)
         return nil;
     }
 
-    // Change the working directory for paths relative to the current file
+    // Change the working directory to use paths relative to the current file
     NSString *originalWorkingDirectory = [fileManager currentDirectoryPath];
-    [fileManager changeCurrentDirectoryPath:[filePath stringByDeletingLastPathComponent]];
+    NSString *fileParentPath = [filePath stringByDeletingLastPathComponent];
+
+    [fileManager changeCurrentDirectoryPath:fileParentPath];
+
+    if (origin == nil)
+        origin = fileParentPath;
 
     NSString *fileAsString = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
     fileData = nil;
@@ -165,7 +165,10 @@ NSString *processFile(NSString *filePath)
             if (environmentalFilePath == nil)
                 continue;
 
+            // Have all environmental inclusions relative to the first file processed
+            [fileManager changeCurrentDirectoryPath:origin];
             NSString *environmentalFile = processFile(environmentalFilePath);
+            [fileManager changeCurrentDirectoryPath:fileParentPath];
 
             if (environmentalFile != nil)
                 [processedFile appendString:environmentalFile];
@@ -187,27 +190,35 @@ int main(int argc, const char *argv[])
     if (argc < 2) {
         NSLog(@"Invalid argument count.");
         printf("Usage:\n");
-        printf("  copyfile <filename> [<environment>]\n\n");
+        printf("  copyfile [<environment>] <filename>\n\n");
         printf("For more information, see copyfile(1).\n");
         return 1;
     }
 
-    NSString *filePath = [NSString stringWithUTF8String:argv[1]];
+    NSString *filePath;
+    NSString *envPath = nil;
+
+    if (argc == 2) {
+        filePath =  [NSString stringWithUTF8String:argv[1]];
+    } else {
+        envPath =  [NSString stringWithUTF8String:argv[1]];
+        filePath = [NSString stringWithUTF8String:argv[2]];
+    }
+
     NSString *fileParentPath = [filePath stringByDeletingLastPathComponent];
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *originalWorkingDirectory = [fileManager currentDirectoryPath];
 
-    BOOL changedDirectory = NO;
     BOOL fileParentPathIsDir;
 
-    if (([fileManager fileExistsAtPath:fileParentPath isDirectory:&fileParentPathIsDir]) && fileParentPathIsDir) {
+    // Because the origin file isn't being opened, its path needs to be checked
+    if (envPath != nil && ([fileManager fileExistsAtPath:fileParentPath isDirectory:&fileParentPathIsDir]) && fileParentPathIsDir) {
         [fileManager changeCurrentDirectoryPath:fileParentPath];
-        changedDirectory = YES;
+        origin = fileParentPath;
     }
 
-    if (argc >= 3) {
-        NSString *envPath = [NSString stringWithUTF8String:argv[2]];
+    if (envPath != nil) {
         NSData *envData = [fileManager contentsAtPath:envPath];
 
         NSError *err = nil;
@@ -255,7 +266,8 @@ int main(int argc, const char *argv[])
         }
     }
 
-    if (changedDirectory)
+    // It's easier to just change back than to reuse the current working directory
+    if (origin != nil)
         [fileManager changeCurrentDirectoryPath:originalWorkingDirectory];
 
     NSString *processedFile = processFile(filePath);
@@ -269,6 +281,6 @@ int main(int argc, const char *argv[])
     [pasteboard clearContents];
     [pasteboard setString:processedFile forType:NSPasteboardTypeString];
 
-    printf("Copied \"%s\".\n", argv[1]);
+    printf("Copied \"%s\".\n", argv[(argc == 2) ? 1 : 2]);
     return 0;
 }

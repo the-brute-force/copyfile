@@ -1,4 +1,4 @@
-.Dd October 28, 2025
+.Dd November 2, 2025
 .Dt COPYFILE 1
 .Os
 
@@ -8,8 +8,8 @@
 
 .Sh SYNOPSIS
 .Nm
-.Pa filename
 .Op Pa environment
+.Pa filename
 
 .Sh DESCRIPTION
 The
@@ -20,14 +20,14 @@ allows for other files to be included recursively.
 
 .Sh OPTIONS
 .Bl -tag -width x
-.It Pa filename
-A UTF-8 encoded file to be copied.
 .It Op Pa environment
 A JSON file to be used as the environment.
 The JSON file must only contain objects with either string or number values.
 
 .Em NOTE:
 On macOS 12.0 or newer, JSON5 is used.
+.It Pa filename
+A UTF-8 encoded file to be copied.
 .El
 
 .Sh EXIT STATUS
@@ -49,12 +49,16 @@ the first instance will be ignored as it is seen as a shebang.
 If another file needs to be included immediately, preceding it with an empty variable
 .Pq Sy "${}"
 will allow that.
+.Em NOTE:
+Inclusions are relative to each file processed.
 
 The environmental inclusion operator
 .Pq Sy "#?"
 will be included if the environment variable exists.
 The environmental inclusion operator will include the file located at the value specified by the environment.
 If the value is not specified in the environment, it will be ignored.
+.Em NOTE:
+Environmental inclusions are relative to the first file processed.
 
 .Nm
 also allows variable substitution.
