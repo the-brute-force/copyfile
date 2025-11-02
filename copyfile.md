@@ -4,11 +4,11 @@
 # SYNOPSIS  
 **copyfile** [<u>environment</u>] <u>filename</u>
 
-# DESCRIPTION
+### DESCRIPTION
 The **copyfile** tool copies a file to the clipboard as a singular line.
 **copyfile** allows for other files to be included recursively.
 
-# OPTIONS
+### OPTIONS
 [<u>environment]  
 A JSON file to be used as the environment.
 The JSON file must only contain objects with either string or number values.
@@ -19,10 +19,10 @@ The JSON file must only contain objects with either string or number values.
 <u>filename</u>  
 A UTF-8 encoded file to be copied.
 
-# EXIT STATUS  
+### EXIT STATUS  
 If copyfile is able to read the file specified, it exits with status code 0.
 
-# FILE STRUCTURE  
+### FILE STRUCTURE  
 **copyfile** follows a simple structure for including files.
 There are two ways a file is inluded.
 
@@ -46,5 +46,5 @@ If the value is not specified in the environment, then it will be replaced with 
 > [!WARNING]  
 > There are no checks for recursion.
 
-# AUTHORS  
+### AUTHORS  
 Harry N
