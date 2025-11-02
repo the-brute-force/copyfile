@@ -1,7 +1,7 @@
-# NAME  
+### NAME  
 **copyfile** - copy a file to the clipboard
 
-# SYNOPSIS  
+### SYNOPSIS  
 **copyfile** [<u>environment</u>] <u>filename</u>
 
 ### DESCRIPTION
