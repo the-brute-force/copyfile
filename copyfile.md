@@ -29,7 +29,8 @@ There are two ways a file is inluded.
 The shebang symbol `#!` is used as the inclusion operator and will always be included.
 > [!NOTE]  
 > If an inclusion operator is used before any text, the first instance will be ignored as it is seen as a shebang.
-> If another file needs to be included immediately, preceding it with an empty variable `${}` will allow that.  
+> If another file needs to be included immediately, preceding it with an empty variable `${}` will allow that.
+
 > [!NOTE]  
 > Inclusions are relative to each file processed.
 
