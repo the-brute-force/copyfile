@@ -7,6 +7,7 @@
 
 // This is only needed for printf
 #import <stdio.h>
+#import <string.h>
 
 NSDictionary<NSString *, NSString *> *environment = nil;
 NSString *origin = nil;
@@ -198,16 +199,16 @@ int main(int argc, const char *argv[])
     NSString *filePath;
     NSString *envPath = nil;
 
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
     if (argc == 2) {
-        filePath =  [NSString stringWithUTF8String:argv[1]];
+        filePath =  [fileManager stringWithFileSystemRepresentation:argv[1] length:strlen(argv[1])];
     } else {
-        envPath =  [NSString stringWithUTF8String:argv[1]];
-        filePath = [NSString stringWithUTF8String:argv[2]];
+        envPath =  [fileManager stringWithFileSystemRepresentation:argv[1] length:strlen(argv[1])];
+        filePath = [fileManager stringWithFileSystemRepresentation:argv[2] length:strlen(argv[2])];
     }
 
     NSString *fileParentPath = [filePath stringByDeletingLastPathComponent];
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *originalWorkingDirectory = [fileManager currentDirectoryPath];
 
     BOOL fileParentPathIsDir;
