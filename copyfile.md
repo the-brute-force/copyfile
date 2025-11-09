@@ -9,7 +9,7 @@ The **copyfile** tool copies a file to the clipboard as a singular line.
 **copyfile** allows for other files to be included recursively.
 
 ### OPTIONS
-[<u>environment]  
+[<u>environment</u>]  
 A JSON file to be used as the environment.
 The JSON file must only contain objects with either string or number values.
 
