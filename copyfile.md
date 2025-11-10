@@ -20,7 +20,7 @@ The JSON file must only contain objects with either string or number values.
 A UTF-8 encoded file to be copied.
 
 ### EXIT STATUS  
-If copyfile is able to read the file specified, it exits with status code 0.
+If **copyfile** is able to read the file specified, it exits with status code 0.
 
 ### FILE STRUCTURE  
 **copyfile** follows a simple structure for including files.
