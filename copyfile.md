@@ -11,41 +11,34 @@ The **copyfile** tool copies a file to the clipboard as a singular line.
 ### OPTIONS
 [<u>environment</u>]  
 A JSON file to be used as the environment.
-The JSON file must only contain objects with either string or number values.
-
-> [!NOTE]  
-> On macOS 12.0 or newer, JSON5 is used.
+The JSON file must only contain objects with string values.
+On macOS 12.0 or newer, JSON5 is used.
 
 <u>filename</u>  
 A UTF-8 encoded file to be copied.
 
 ### EXIT STATUS  
-If **copyfile** is able to read the file specified, it exits with status code 0.
+If **copyfile** can fine <u>filename</u>, it exits with status code 0.
 
 ### FILE STRUCTURE  
-**copyfile** follows a simple structure for including files.
-There are two ways a file is inluded.
+**copyfile** supports variable substitution.
+Variables can be substituted using the variable operator (**#""**) and the value will be fetched from the environment.
+`#"example"` will be replaced with the value of `example` specified by the environment.
+If the value does not exist, an empty value is returned instead.
 
-The shebang symbol `#!` is used as the inclusion operator and will always be included.
+**copyfile** has two ways to include another file.
+Using the inclusion operator (**#!**) and the environmental inclusion operator (**#!""**).
+
+The inclusion operator (**#!**) includes the file path that follows relative to the file that includes it.
+`#!./README.md` will include the file `./README.md`.
+If the first two bytes of a file are the inclusion operator, that line is skipped.
+If another file needs to be included immediately, preceding it with an empty variable (**#""**) will allow that.
+
+The environmental inclusion operator (**#!""**) includes the file the variable is set to.
+`#!"example"` will include the file specified by the value of example.
+If example is set to `README.md` then `#!"example"` will include the file `README.md`
 > [!NOTE]  
-> If an inclusion operator is used before any text, the first instance will be ignored as it is seen as a shebang.
-> If another file needs to be included immediately, preceding it with an empty variable `${}` will allow that.
-
-> [!NOTE]  
-> Inclusions are relative to each file processed.
-
-The environmental inclusion operator `#?` will be included if the environment variable exists.
-The environmental inclusion operator will include the file located at the value specified by the environment.
-If the value is not specified in the environment, it will be ignored.
-> [!NOTE]  
-> Environmental inclusions are relative to the first file processed.
-
-**copyfile** also allows variable substitution.
-Strings enclosed in `${` and `}` will be replaced with the value specified by the environment.
-If the value is not specified in the environment, then it will be replaced with nothing.
-
-> [!WARNING]  
-> There are no checks for recursion.
+> Environmental inclusions are relative to <u>filename</u>
 
 ### AUTHORS  
 Harry N

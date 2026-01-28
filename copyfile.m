@@ -1,84 +1,206 @@
-#if !__has_feature(objc_arc)
-#error "ARC is required for this project."
-#endif
+/*
+   Hohoho!!!⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⢀⣀⣿⣷⡀
+   I am the reference ⠀⠀⣤⣼⠿⠇⠸⠿⣇⣀
+   counter now!⠀ ⠀ ⠀⠀⠀⣤⣴⠟⠛⠀⠀⠀⠀⠛⢻⣤⡄
+                   ⠀⢰⣶⡟⠋⠀⠀⠀⣶⣶⠀⠀⠈⠉⣳⣶
+⠀⠀⠀            ⠀⢀⠀⣿⣿⠉⠁⠀⠀⢀⠀⣿⣿⣿⡆⢀⠀⠈⠉⣿⣇
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⣸⠿⠇⠀⠀⠀⠀⣀⣸⣿⣿⣿⣿⣿⣿⣀⡀⠀⠀⠸⠿⣅⣀
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣤⠀⠀⠀⠛⢻⣤⡄
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣾⠛⠋⠀⠀⢰⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡶⠀⠀⢸⣿⡇
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⠀⠉⣿⣷
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⢠⣀⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⡿⢿⣿⣿⣿⣿⡿⠿⣇⣀⠀⢸⣿
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣤⡼⠛⠛⠻⣿⣿⣿⣿⡿⠛⣤⣼⣿⡇⠐⠟⠻⠿⠛⠃⠀⠛⢻⣤⣼⣿
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣟⡇⠀⠀⠀⠉⠉⠉⠙⠉⠀⠉⠉⠉⠁⠀⠀⣰⣶⡀⠀⠀⠀⢸⣧⣿⣿
+ ⠀⠀⡀⠀⡀⠀⠀⠀⠀⠀⠀⠈⠉⣿⣿⣶⡆⠀⠀⠀⠀⣿⣇⣦⣤⣤⣤⣾⣿⣿⡏⠉⠀⠀⠀⣶⣾⣿⡏⠉
+ ⣀⣀⣿⣿⠿⡿⠿⢿⣿⣿⠀⠀⠀⠀⢸⣿⣿⣿⣀⡀⠀⠀⠸⠿⠿⢿⡿⠇⠀⠀⡇⠀⣀⣸⣿⣿⣿⣀⡀
+ ⢹⣿⠿⠇⠀⠀⢰⠂⠻⠿⣤⡄⠀⣤⣼⠿⠿⠿⠿⢧⣤⣤⣤⣤⣤⣼⣤⣤⣤⣴⣧⣴⠿⠿⠿⠿⠿⠿⢧⣤
+ ⢸⣿⣦⣤⣶⣾⣿⠀⠀⠀⠛⢳⣶⠟⠋⠀⠀⠀⠀⠘⠛⣿⠛⢛⡛⠛⠛⠛⠛⠻⡟⠛⠀⠀⠀⠀⠀⠀⠙⠛⣦⡆
+ ⠈⠉⠉⠉⠉⣿⣿⠀⠀⠀⠀⠈⠉⠀⠀⠀⣶⠖⠒⠒⢺⣷⡏⠉⣇⣀⠀⠀⠀⠀⠑⠒⠒⠒⢲⡂⠀⠀⠀⠀⠉⢹⣶⡀
+ ⠀⠀⠀⠀⠀⠀⠸⠿⣇⣀⣀⣀⣀⣀⣸⡟⠋⠀⠀⡠⠾⠀⠀⠀⠀⠸⠤⡄⠀⠀⠀⠀⠀⠀⠈⣿⣿⣀⡀⠀⠀⠀⠀⠿⢷⣀⡀
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠻⠿⠿⠿⠿⣿⣿⠀⠀⢰⠶⠃⠀⠀⠀⠀⠀⠀⠀⠳⢶⡄⠀⠀⠀⠀⠀⠀⢸⣿⣧⣤⠀⠀⠀⠀⢸⣿⡃
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⢸⣿⡟⠛⣶⡄⠀⡴⠞⠛⣷⣦
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠘⠒⠒⢲⠀⢰⠒⠒⢶⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⣸⣿⡇⠀⣿⣷⠒⠃⠀⠀⣿⣿
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣸⠿⣇⠀⠀⠀⢸⣀⣸⠀⠀⠈⠉⠉⠉⠁⡤⠤⠤⠤⠤⣿⣿⠀⠀⠀⠀⢸⣿⣀⣀⣀⡿⠿
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡏⠀⠻⠤⡄⠀⠀⠀⠀⠀⠀⠀⢀⡄⠀⠰⠇⠀⠀⠀⠀⠿⢿⣤⡄⠀⠀⠸⠿⠿⠿⠿⠇
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣇⠀⠀⠀⠓⠒⠒⠒⢲⣶⣶⣶⣾⣧⣴⠀⠀⠀⠀⠀⠀⠀⠘⠛⢳⣤
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣶⣶⣶⠀⠀⠠⣶⣿⠉⠉⠉⠉⠉⢹⣶⣶⣶⠀⠀⠀⠀⢰⣶⣿⣿⣶⡆
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣸⣿⠃⠀⠀⢿⣭⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣻⣿⡿⠁⠀⠀⠀⢸⣿⣀⡀
+ ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣿⣧⣀⣀⣀⣀⣀⣀⣰⡿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡿⣧⣀⣀⣀⣀⣀⣀⣠⣿⣿⣀⡀
+*/
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
-
-// This is only needed for printf
 #import <stdio.h>
+#import <stdlib.h>
 #import <string.h>
+#import <strings.h>
 
-NSDictionary<NSString *, NSString *> *environment = nil;
-NSString *origin = nil;
+static NSDictionary<NSString *, NSString *> *environment = nil;
+static NSString *origin = nil;
 
-NSString *replaceEnvironmentVariables(NSString *inputString)
+static BOOL ignoreEmptyLines = YES;
+static BOOL appendSpaces = YES;
+
+NSString *replaceVariables(NSString *input);
+
+NSString *includeFile(NSString *path, BOOL useOrigin)
 {
-    if (inputString == nil)
+    if (path == nil)
         return @"";
 
-    NSUInteger length = [inputString length];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *original = [fileManager currentDirectoryPath];
 
-    NSMutableString *outputString = [[NSMutableString alloc] init];
+    if (origin != nil && useOrigin) {
+        [fileManager changeCurrentDirectoryPath:origin];
+    } else {
+        [fileManager changeCurrentDirectoryPath:[path stringByDeletingLastPathComponent]];
+    }
+
+    NSData *fileData = [fileManager contentsAtPath:path];
+    [fileManager changeCurrentDirectoryPath:original];
+
+    [original release];
+    original = nil;
+
+    if (fileData == nil) {
+        NSLog(@"Unable to read the file \"%@\".", path);
+        return @"";
+    }
+
+    NSString *fileString = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
+    [fileData release];
+    fileData = nil;
+
+    // This is very inefficient, but it's easy and helps with edge cases
+    NSArray<NSString *> *fileLines = [fileString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    [fileString release];
+    fileString = nil;
+
+    BOOL skippedShebang = NO;
+    NSMutableString *processedFile = [[NSMutableString alloc] init];
+
+    for (NSString *line in fileLines) {
+        if (!skippedShebang) {
+            skippedShebang = YES;
+
+            // The shebang is a magic number, it must come at the beginning
+            if ([line hasPrefix:@"#!"])
+                continue;
+        }
+
+        if ([line length] == 0) {
+            if (!ignoreEmptyLines) {
+                // The lines are split, so this newline is assumed
+                [processedFile appendString:@"\n"];
+
+                if (appendSpaces)
+                    [processedFile appendString:@" "];
+            }
+
+            continue;
+        }
+
+        if (appendSpaces && [processedFile length] != 0) {
+            [processedFile appendString:@" "];
+        }
+
+        NSCharacterSet *notWhitespace = [[NSCharacterSet whitespaceCharacterSet] invertedSet];
+        NSRange range = [line rangeOfCharacterFromSet:notWhitespace];
+
+        [notWhitespace release];
+        notWhitespace = nil;
+
+        if (range.location != NSNotFound && range.location < [line length]-4 && [line characterAtIndex:range.location+2] != 0x22) {
+            if ([line characterAtIndex:range.location] == 0x23 && [line characterAtIndex:range.location+1] == 0x21) {
+                NSString *includePath = [[line substringFromIndex:range.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                [processedFile appendString:includeFile(includePath, NO)];
+                
+                [includePath release];
+                includePath = nil;
+                continue;
+            }
+        }
+
+        [processedFile appendString:replaceVariables(line)];
+    }
+
+    return processedFile;
+}
+
+NSString *replaceVariables(NSString *input)
+{
+    if (input == nil)
+        return @"";
+
+    NSUInteger length = [input length];
+    NSMutableString *output = [[NSMutableString alloc] init];
 
     NSUInteger rangeStart = 0;
     BOOL varMode = NO;
+    BOOL replaceWithFile = NO;
 
     for (NSUInteger i = 0; i < length; i++) {
-        unichar current = [inputString characterAtIndex:i];
-        unichar peek = 0;
+        unichar current = [input characterAtIndex:i];
+        unichar peek = (i < length-2) ? [input characterAtIndex:i+1] : 0;
 
-        if (i < length-2) {
-            peek = [inputString characterAtIndex:i+1];
+        NSRange range = NSMakeRange(rangeStart, i-rangeStart);
+
+        // A file variable is started
+        if (!varMode && i != 0 && [input characterAtIndex:i-1] == 0x23 && current == 0x21 && peek == 0x22) {
+            varMode = YES;
+            replaceWithFile = YES;
+
+            // Skip previous character
+            range.location++;
+            range.length--;
+
+            // Start after sequence
+            rangeStart = ++i + 1;
+
+            if (range.length != 0)
+                [output appendString:[input substringWithRange:range]];
+
+            continue;
         }
 
-        NSUInteger rangeLength = i-rangeStart;
-
         // A variable is started
-        if (!varMode && current == 0x24 && peek == 0x7B) {
-            // Current range
-            NSRange standardRange = NSMakeRange(rangeStart, rangeLength);
-
+        if (!varMode && current == 0x23 && peek == 0x22) {
             varMode = YES;
             // Start after sequence
             rangeStart = ++i + 1;
 
-            if (rangeLength == 0)
-                continue;
-
-            NSMutableData *charBuffer = [NSMutableData dataWithLength:rangeLength*sizeof(unichar)];
-            unichar *standardChars = (unichar *)[charBuffer mutableBytes];
-
-            [inputString getCharacters:standardChars range:standardRange];
-
-            NSString *standardString = [NSString stringWithCharacters:standardChars length:rangeLength];
-
-            [outputString appendString:standardString];
+            if (range.length != 0)
+                [output appendString:[input substringWithRange:range]];
 
             continue;
         }
 
         // A variable is ended
-        if (varMode && current == 0x7D) {
-            NSRange varRange = NSMakeRange(rangeStart, rangeLength);
-
+        if (varMode && current == 0x22) {
             varMode = NO;
-            // Start at next character
+            // Start next range at next character
             rangeStart = i+1;
 
-            if (rangeLength == 0)
+            if (range.length == 0)
                 continue;
 
-            NSMutableData *charBuffer = [NSMutableData dataWithLength:rangeLength*sizeof(unichar)];
-            unichar *varNameChars = (unichar *)[charBuffer mutableBytes];
+            NSString *varContent = [environment objectForKey:[input substringWithRange:range]];
 
-            [inputString getCharacters:varNameChars range:varRange];
+            if (replaceWithFile) {
+                replaceWithFile = NO;
 
-            NSString *varName = [NSString stringWithCharacters:varNameChars length:rangeLength];
+                // Don't try to look for a file with no name
+                if ([varContent length] != 0) {
+                    NSString *fileContent = includeFile(varContent, YES);
+                    
+                    [varContent release];
+                    varContent = fileContent;
+                }
+            }
 
-            NSString *varValue = [environment objectForKey:varName];
-            if (varValue != nil)
-                [outputString appendString:varValue];
+            if ([varContent length] != 0)
+                [output appendString:varContent];
 
             continue;
         }
@@ -86,105 +208,84 @@ NSString *replaceEnvironmentVariables(NSString *inputString)
         // The end is reached without a variable
         if (i == length-1) {
             // Include the current character too
-            rangeLength++;
+            range.length++;
 
-            NSRange finalRange = NSMakeRange(rangeStart, rangeLength);
-
-            NSMutableData *charBuffer = [NSMutableData dataWithLength:rangeLength*sizeof(unichar)];
-            unichar *finalChars = (unichar *)[charBuffer mutableBytes];
-
-            [inputString getCharacters:finalChars range:finalRange];
-
-            NSString *finalString = [NSString stringWithCharacters:finalChars length:rangeLength];
-
-            [outputString appendString:finalString];
+            [output appendString:[input substringWithRange:range]];
+            continue;
         }
     }
 
-    return outputString;
+    return output;
 }
 
-NSString *processFile(NSString *filePath)
+void readEnvironment(const char * restrict path)
 {
+    if (path == NULL)
+        return;
+
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSData *fileData = [fileManager contentsAtPath:filePath];
+    NSString *original = nil;
 
-    if (fileData == nil) {
-        NSLog(@"Unable to read the file \"%@\".", filePath);
-        return nil;
+    if (origin != nil) {
+        original = [fileManager currentDirectoryPath];
+        [fileManager changeCurrentDirectoryPath:origin];
     }
 
-    // Change the working directory to use paths relative to the current file
-    NSString *originalWorkingDirectory = [fileManager currentDirectoryPath];
-    NSString *fileParentPath = [filePath stringByDeletingLastPathComponent];
+    NSString* pathString = [[NSString alloc] initWithCString:path encoding:[NSString defaultCStringEncoding]];
+    NSData* envData = [fileManager contentsAtPath:pathString];
+    [pathString release];
+    pathString = nil;
 
-    [fileManager changeCurrentDirectoryPath:fileParentPath];
+    if (original != nil)
+        [fileManager changeCurrentDirectoryPath:original];
 
-    if (origin == nil)
-        origin = fileParentPath;
+    [original release];
+    original = nil;
 
-    NSString *fileAsString = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
-    fileData = nil;
+    if (envData == nil)
+        return;
 
-    NSArray<NSString *> *fileLines = [fileAsString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    fileAsString = nil;
+    NSError *err = nil;
+    id envJSON = nil;
 
-    BOOL skippedShebang = NO;
-    NSMutableString *processedFile = [[NSMutableString alloc] init];
+    #ifndef __GNU_LIBOBJC__
+    NSOperatingSystemVersion minForJSON5 = {.majorVersion = 12};
 
-    for (NSString *line in fileLines) {
-        if ([line length] == 0)
-            continue;
+    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:minForJSON5]) {
+        envJSON = [NSJSONSerialization JSONObjectWithData:envData options:NSJSONReadingJSON5Allowed error:&err];
+    } else {
+        envJSON = [NSJSONSerialization JSONObjectWithData:envData options:0 error:&err];
+    }
+    #else
+    envJSON = [NSJSONSerialization JSONObjectWithData:envData options:0 error:&err];
+    #endif
 
-        // There's probably a better way to do this
-        if ([processedFile length] != 0)
-            [processedFile appendString:@" "];
+    [envData release];
+    envData = nil;
 
-        if ([line hasPrefix:@"#!"]) {
-            if (!skippedShebang) {
-                skippedShebang = YES;
-                continue;
-            }
-
-            NSString *includedFilePath = [[line substringFromIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *includedFile = processFile(includedFilePath);
-
-            if (includedFile != nil)
-                [processedFile appendString:includedFile];
-
-            continue;
-        }
-
-        // File started without shebang
-        if (!skippedShebang)
-            skippedShebang = YES;
-
-        if ([line hasPrefix:@"#?"]) {
-            NSString *environmentalKeyName = [[line substringFromIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *environmentalFilePath = [environment objectForKey:environmentalKeyName];
-
-            if (environmentalFilePath == nil)
-                continue;
-
-            // Have all environmental inclusions relative to the first file processed
-            [fileManager changeCurrentDirectoryPath:origin];
-            NSString *environmentalFile = processFile(environmentalFilePath);
-            [fileManager changeCurrentDirectoryPath:fileParentPath];
-
-            if (environmentalFile != nil)
-                [processedFile appendString:environmentalFile];
-
-            continue;
-        }
-
-        [processedFile appendString:replaceEnvironmentVariables(line)];
+    if (envJSON == nil || err != nil || ![envJSON isKindOfClass:[NSDictionary class]]) {
+        [envJSON release];
+        envJSON = nil;
+        [err release];
+        err = nil;
+        return;
     }
 
-    [fileManager changeCurrentDirectoryPath:originalWorkingDirectory];
+    NSMutableDictionary<NSString *, NSString *> *envFiltered = [[NSMutableDictionary alloc] init];
+    
+    for (NSString *key in envJSON) {
+        id value = [envJSON valueForKey:key];
 
-    return processedFile;
+        if ([value isKindOfClass:[NSString class]]) {
+            [envFiltered setObject:value forKey:key];
+        }
+    }
+
+    [envJSON release];
+    envJSON = nil;
+
+    environment = envFiltered;
 }
-
 
 int main(int argc, const char *argv[])
 {
@@ -196,92 +297,63 @@ int main(int argc, const char *argv[])
         return 1;
     }
 
-    NSString *filePath;
-    NSString *envPath = nil;
-
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    if (argc == 2) {
-        filePath =  [fileManager stringWithFileSystemRepresentation:argv[1] length:strlen(argv[1])];
-    } else {
-        envPath =  [fileManager stringWithFileSystemRepresentation:argv[1] length:strlen(argv[1])];
-        filePath = [fileManager stringWithFileSystemRepresentation:argv[2] length:strlen(argv[2])];
-    }
+    NSString *baseFile = [[NSString alloc] initWithCString:argv[(argc == 2) ? 1 : 2] encoding:[NSString defaultCStringEncoding]];
 
-    NSString *fileParentPath = [filePath stringByDeletingLastPathComponent];
-    NSString *originalWorkingDirectory = [fileManager currentDirectoryPath];
-
-    BOOL fileParentPathIsDir;
-
-    // Because the origin file isn't being opened, its path needs to be checked
-    if (envPath != nil && ([fileManager fileExistsAtPath:fileParentPath isDirectory:&fileParentPathIsDir]) && fileParentPathIsDir) {
-        [fileManager changeCurrentDirectoryPath:fileParentPath];
-        origin = fileParentPath;
-    }
-
-    if (envPath != nil) {
-        NSData *envData = [fileManager contentsAtPath:envPath];
-
-        NSError *err = nil;
-        id envJSON = nil;
-
-        NSMutableDictionary *envDict = [[NSMutableDictionary alloc] init];
-
-        if (envData == nil) {
-            NSLog(@"The environment \"%@\" could not be read.", envPath);
-        } else {
-            NSOperatingSystemVersion minForJSON5 = {.majorVersion = 12};
-
-            if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:minForJSON5]) {
-                envJSON = [NSJSONSerialization JSONObjectWithData:envData options:NSJSONReadingJSON5Allowed error:&err];
-            } else {
-                envJSON = [NSJSONSerialization JSONObjectWithData:envData options:0 error:&err];
-            }
-        }
-
-        if (err != nil) {
-            NSLog(@"The environment \"%@\" is malformed.", envPath);
-        } else if (envJSON != nil && ![envJSON isKindOfClass:[NSDictionary class]]) {
-            NSLog(@"The environment \"%@\" has an array instead of objects.", envPath);
-        } else {
-            [envDict addEntriesFromDictionary:(NSDictionary *)envJSON];
-        }
-
-        if (envDict != nil) {
-            for (NSString *key in envDict) {
-                id value = [envDict objectForKey:key];
-
-                if ([value isKindOfClass:[NSString class]]) {
-                    continue;
-                }
-
-                if ([value isKindOfClass:[NSNumber class]]) {
-                    [envDict setValue:[(NSNumber *)value stringValue] forKey:key];
-                    continue;
-                }
-
-                [envDict removeObjectForKey:key];
-            }
-
-            environment = envDict;
-        }
-    }
-
-    // It's easier to just change back than to reuse the current working directory
-    if (origin != nil)
-        [fileManager changeCurrentDirectoryPath:originalWorkingDirectory];
-
-    NSString *processedFile = processFile(filePath);
-
-    if (processedFile == nil) {
-        NSLog(@"No usable output.");
+    BOOL baseFilePathIsDir;
+    if (![fileManager fileExistsAtPath:baseFile isDirectory:&baseFilePathIsDir] || baseFilePathIsDir) {
+        NSLog(@"A file cannot be found at \"%@\".", baseFile);
+        [baseFile release];
         return 1;
     }
 
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    [pasteboard clearContents];
-    [pasteboard setString:processedFile forType:NSPasteboardTypeString];
+    origin = [baseFile stringByDeletingLastPathComponent];
 
-    printf("Copied \"%s\".\n", argv[(argc == 2) ? 1 : 2]);
+    char *emptyLinesVar = getenv("COPYFILE_EMPTY_LINES");
+    if (emptyLinesVar != NULL) {
+        ignoreEmptyLines = !(strcasecmp(emptyLinesVar, "yes") == 0 || strcasecmp(emptyLinesVar, "true") == 0 || strcmp(emptyLinesVar, "1") == 0);
+        free(emptyLinesVar);
+        emptyLinesVar = NULL;
+    }
+
+    char *lineEndingVar = getenv("COPYFILE_NO_SPACES");
+    if (lineEndingVar != NULL) {
+        appendSpaces = !(strcasecmp(lineEndingVar, "yes") == 0 || strcasecmp(lineEndingVar, "true") == 0 || strcmp(lineEndingVar, "1") == 0);
+        free(lineEndingVar);
+        lineEndingVar = NULL;
+    }
+
+    if (argc > 2) {
+        readEnvironment(argv[1]);
+
+        if (environment == nil)
+            NSLog(@"Error reading environment file, continuing without environment variables...");
+    }
+
+    NSString *fileContent = includeFile(baseFile, YES);
+    [baseFile release];
+
+    if ([fileContent length] != 0) {
+        NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+        [pasteboard clearContents];
+        [pasteboard setString:fileContent forType:NSPasteboardTypeString];
+
+        printf("Copied \"%s\".\n", argv[(argc == 2) ? 1 : 2]);
+    } else {
+        printf("Nothing was copied.\n");
+    }
+
+    [fileContent release];
+    fileContent = nil;
+
+    if (environment != nil) {
+        [environment release];
+        environment = nil;
+    }
+
+    [origin release];
+    origin = nil;
+
     return 0;
 }

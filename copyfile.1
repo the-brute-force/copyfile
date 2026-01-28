@@ -1,4 +1,4 @@
-.Dd November 2, 2025
+.Dd January 28, 2026
 .Dt COPYFILE 1
 .Os
 
@@ -22,9 +22,7 @@ allows for other files to be included recursively.
 .Bl -tag -width x
 .It Op Pa environment
 A JSON file to be used as the environment.
-The JSON file must only contain objects with either string or number values.
-
-.Em NOTE:
+The JSON file must only contain objects with string values.
 On macOS 12.0 or newer, JSON5 is used.
 .It Pa filename
 A UTF-8 encoded file to be copied.
@@ -33,44 +31,57 @@ A UTF-8 encoded file to be copied.
 .Sh EXIT STATUS
 If
 .Nm
-is able to read the file specified, it exits with status code 0.
+can find
+.Ar filename ,
+it exits with status code 0.
 
 .Sh FILE STRUCTURE
 .Nm
-follows a simple structure for including files.
-There are two ways a file is inluded.
-
-The shebang symbol
-.Pq Sy "#!"
-is used as the inclusion operator and will always be included.
-.Em NOTE:
-If an inclusion operator is used before any text,
-the first instance will be ignored as it is seen as a shebang.
-If another file needs to be included immediately, preceding it with an empty variable
-.Pq Sy "${}"
-will allow that.
-.Em NOTE:
-Inclusions are relative to each file processed.
-
-The environmental inclusion operator
-.Pq Sy "#?"
-will be included if the environment variable exists.
-The environmental inclusion operator will include the file located at the value specified by the environment.
-If the value is not specified in the environment, it will be ignored.
-.Em NOTE:
-Environmental inclusions are relative to the first file processed.
+supports variable substitution.
+Variables can be substituted using the variable operator
+.Pq Sy "#\(dq\(dq"
+and the value will be fetched from the environment.
+.Li #"example"
+will be replaced with the value of
+.Li example
+specified by the environment.
+If the value does not exist, an empty value is returned instead.
 
 .Nm
-also allows variable substitution.
-Strings enclosed in
-.Sy "${"
-and
-.Sy "}"
-will be replaced with the value specified by the environment.
-If the value is not specified in the environment, then it will be replaced with nothing.
+has two ways to include another file.
+Using the inclusion operator
+.Pq Sy #!
+and the environmental inclusion operator
+.Pq Sy #!"" .
 
-.Em WARNING:
-There are no checks for recursion.
+The inclusion operator
+.Pq Sy "#!"
+includes the file path that follows relative to the file that includes it.
+.Li #!./README.md
+will include the file
+.Li ./README.md .
+If the first two bytes of a file are the inclusion operator, that line is skipped.
+If another file needs to be included immediately, preceding it with an empty variable
+.Pq Sy #""
+will allow that.
+
+The environmental inclusion operator
+.Pq Sy #!""
+includes the file the variable is set to.
+.Li #!"example"
+will include the file specified by the value of
+.Li example .
+If
+.Li example
+is set to
+.Li README.md
+then
+.Li #!"example"
+will include the file
+.Li README.md .
+.Em NOTE:
+Environmental inclusions are relative to
+.Pa filename .
 
 .Sh AUTHORS
 .An Harry N

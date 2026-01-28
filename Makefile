@@ -1,7 +1,9 @@
 .POSIX:
+# This supports GCC 4.6 or newer
+# libobjc2 and GNUSTEP are required
 CC        = clang
-OBJCFLAGS = -fobjc-arc -Wall -O3
-LDLIBS    = -framework Cocoa -framework Foundation
+OBJCFLAGS = -Wall -O3
+LDLIBS    = -framework AppKit -framework Foundation
 PREFIX    = /usr/local
 
 all: copyfile
