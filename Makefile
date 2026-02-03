@@ -2,7 +2,7 @@
 # This supports GCC 4.6 or newer
 # libobjc2 and GNUSTEP are required
 CC        = clang
-OBJCFLAGS = -Wall -O3
+OBJCFLAGS = -fobjc-arc -Wall -O3
 LDLIBS    = -framework AppKit -framework Foundation
 PREFIX    = /usr/local
 

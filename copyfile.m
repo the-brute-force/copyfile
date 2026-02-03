@@ -1,32 +1,6 @@
-/*
-   Hohoho!!!⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⢀⣀⣿⣷⡀
-   I am the reference ⠀⠀⣤⣼⠿⠇⠸⠿⣇⣀
-   counter now!⠀ ⠀ ⠀⠀⠀⣤⣴⠟⠛⠀⠀⠀⠀⠛⢻⣤⡄
-                   ⠀⢰⣶⡟⠋⠀⠀⠀⣶⣶⠀⠀⠈⠉⣳⣶
-⠀⠀⠀            ⠀⢀⠀⣿⣿⠉⠁⠀⠀⢀⠀⣿⣿⣿⡆⢀⠀⠈⠉⣿⣇
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⣸⠿⠇⠀⠀⠀⠀⣀⣸⣿⣿⣿⣿⣿⣿⣀⡀⠀⠀⠸⠿⣅⣀
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣤⠀⠀⠀⠛⢻⣤⡄
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣾⠛⠋⠀⠀⢰⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡶⠀⠀⢸⣿⡇
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⠀⠉⣿⣷
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⢠⣀⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⡿⢿⣿⣿⣿⣿⡿⠿⣇⣀⠀⢸⣿
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣤⡼⠛⠛⠻⣿⣿⣿⣿⡿⠛⣤⣼⣿⡇⠐⠟⠻⠿⠛⠃⠀⠛⢻⣤⣼⣿
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣟⡇⠀⠀⠀⠉⠉⠉⠙⠉⠀⠉⠉⠉⠁⠀⠀⣰⣶⡀⠀⠀⠀⢸⣧⣿⣿
- ⠀⠀⡀⠀⡀⠀⠀⠀⠀⠀⠀⠈⠉⣿⣿⣶⡆⠀⠀⠀⠀⣿⣇⣦⣤⣤⣤⣾⣿⣿⡏⠉⠀⠀⠀⣶⣾⣿⡏⠉
- ⣀⣀⣿⣿⠿⡿⠿⢿⣿⣿⠀⠀⠀⠀⢸⣿⣿⣿⣀⡀⠀⠀⠸⠿⠿⢿⡿⠇⠀⠀⡇⠀⣀⣸⣿⣿⣿⣀⡀
- ⢹⣿⠿⠇⠀⠀⢰⠂⠻⠿⣤⡄⠀⣤⣼⠿⠿⠿⠿⢧⣤⣤⣤⣤⣤⣼⣤⣤⣤⣴⣧⣴⠿⠿⠿⠿⠿⠿⢧⣤
- ⢸⣿⣦⣤⣶⣾⣿⠀⠀⠀⠛⢳⣶⠟⠋⠀⠀⠀⠀⠘⠛⣿⠛⢛⡛⠛⠛⠛⠛⠻⡟⠛⠀⠀⠀⠀⠀⠀⠙⠛⣦⡆
- ⠈⠉⠉⠉⠉⣿⣿⠀⠀⠀⠀⠈⠉⠀⠀⠀⣶⠖⠒⠒⢺⣷⡏⠉⣇⣀⠀⠀⠀⠀⠑⠒⠒⠒⢲⡂⠀⠀⠀⠀⠉⢹⣶⡀
- ⠀⠀⠀⠀⠀⠀⠸⠿⣇⣀⣀⣀⣀⣀⣸⡟⠋⠀⠀⡠⠾⠀⠀⠀⠀⠸⠤⡄⠀⠀⠀⠀⠀⠀⠈⣿⣿⣀⡀⠀⠀⠀⠀⠿⢷⣀⡀
- ⠀⠀⠀⠀⠀⠀⠀⠀⠻⠿⠿⠿⠿⣿⣿⠀⠀⢰⠶⠃⠀⠀⠀⠀⠀⠀⠀⠳⢶⡄⠀⠀⠀⠀⠀⠀⢸⣿⣧⣤⠀⠀⠀⠀⢸⣿⡃
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⢸⣿⡟⠛⣶⡄⠀⡴⠞⠛⣷⣦
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠘⠒⠒⢲⠀⢰⠒⠒⢶⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⣸⣿⡇⠀⣿⣷⠒⠃⠀⠀⣿⣿
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣸⠿⣇⠀⠀⠀⢸⣀⣸⠀⠀⠈⠉⠉⠉⠁⡤⠤⠤⠤⠤⣿⣿⠀⠀⠀⠀⢸⣿⣀⣀⣀⡿⠿
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡏⠀⠻⠤⡄⠀⠀⠀⠀⠀⠀⠀⢀⡄⠀⠰⠇⠀⠀⠀⠀⠿⢿⣤⡄⠀⠀⠸⠿⠿⠿⠿⠇
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣇⠀⠀⠀⠓⠒⠒⠒⢲⣶⣶⣶⣾⣧⣴⠀⠀⠀⠀⠀⠀⠀⠘⠛⢳⣤
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣶⣶⣶⠀⠀⠠⣶⣿⠉⠉⠉⠉⠉⢹⣶⣶⣶⠀⠀⠀⠀⢰⣶⣿⣿⣶⡆
- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣸⣿⠃⠀⠀⢿⣭⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣻⣿⡿⠁⠀⠀⠀⢸⣿⣀⡀
- ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣿⣧⣀⣀⣀⣀⣀⣀⣰⡿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡿⣧⣀⣀⣀⣀⣀⣀⣠⣿⣿⣀⡀
-*/
+#if !__has_feature(objc_arc)
+# error "ARC is required for this project."
+#endif
 
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
@@ -59,8 +33,6 @@ NSString *includeFile(NSString *path, BOOL useOrigin)
 
     NSData *fileData = [fileManager contentsAtPath:path];
     [fileManager changeCurrentDirectoryPath:original];
-
-    [original release];
     original = nil;
 
     if (fileData == nil) {
@@ -69,12 +41,10 @@ NSString *includeFile(NSString *path, BOOL useOrigin)
     }
 
     NSString *fileString = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
-    [fileData release];
     fileData = nil;
 
     // This is very inefficient, but it's easy and helps with edge cases
     NSArray<NSString *> *fileLines = [fileString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    [fileString release];
     fileString = nil;
 
     BOOL skippedShebang = NO;
@@ -107,16 +77,12 @@ NSString *includeFile(NSString *path, BOOL useOrigin)
 
         NSCharacterSet *notWhitespace = [[NSCharacterSet whitespaceCharacterSet] invertedSet];
         NSRange range = [line rangeOfCharacterFromSet:notWhitespace];
-
-        [notWhitespace release];
         notWhitespace = nil;
 
         if (range.location != NSNotFound && range.location < [line length]-4 && [line characterAtIndex:range.location+2] != 0x22) {
             if ([line characterAtIndex:range.location] == 0x23 && [line characterAtIndex:range.location+1] == 0x21) {
                 NSString *includePath = [[line substringFromIndex:range.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                 [processedFile appendString:includeFile(includePath, NO)];
-                
-                [includePath release];
                 includePath = nil;
                 continue;
             }
@@ -193,8 +159,6 @@ NSString *replaceVariables(NSString *input)
                 // Don't try to look for a file with no name
                 if ([varContent length] != 0) {
                     NSString *fileContent = includeFile(varContent, YES);
-                    
-                    [varContent release];
                     varContent = fileContent;
                 }
             }
@@ -233,14 +197,12 @@ void readEnvironment(const char * restrict path)
 
     NSString* pathString = [[NSString alloc] initWithCString:path encoding:[NSString defaultCStringEncoding]];
     NSData* envData = [fileManager contentsAtPath:pathString];
-    [pathString release];
     pathString = nil;
 
-    if (original != nil)
+    if (original != nil) {
         [fileManager changeCurrentDirectoryPath:original];
-
-    [original release];
-    original = nil;
+        original = nil;
+    }
 
     if (envData == nil)
         return;
@@ -260,16 +222,10 @@ void readEnvironment(const char * restrict path)
     envJSON = [NSJSONSerialization JSONObjectWithData:envData options:0 error:&err];
     #endif
 
-    [envData release];
     envData = nil;
 
-    if (envJSON == nil || err != nil || ![envJSON isKindOfClass:[NSDictionary class]]) {
-        [envJSON release];
-        envJSON = nil;
-        [err release];
-        err = nil;
+    if (envJSON == nil || err != nil || ![envJSON isKindOfClass:[NSDictionary class]])
         return;
-    }
 
     NSMutableDictionary<NSString *, NSString *> *envFiltered = [[NSMutableDictionary alloc] init];
     
@@ -280,9 +236,6 @@ void readEnvironment(const char * restrict path)
             [envFiltered setObject:value forKey:key];
         }
     }
-
-    [envJSON release];
-    envJSON = nil;
 
     environment = envFiltered;
 }
@@ -304,7 +257,6 @@ int main(int argc, const char *argv[])
     BOOL baseFilePathIsDir;
     if (![fileManager fileExistsAtPath:baseFile isDirectory:&baseFilePathIsDir] || baseFilePathIsDir) {
         NSLog(@"A file cannot be found at \"%@\".", baseFile);
-        [baseFile release];
         return 1;
     }
 
@@ -332,7 +284,6 @@ int main(int argc, const char *argv[])
     }
 
     NSString *fileContent = includeFile(baseFile, YES);
-    [baseFile release];
 
     if ([fileContent length] != 0) {
         NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
@@ -343,17 +294,6 @@ int main(int argc, const char *argv[])
     } else {
         printf("Nothing was copied.\n");
     }
-
-    [fileContent release];
-    fileContent = nil;
-
-    if (environment != nil) {
-        [environment release];
-        environment = nil;
-    }
-
-    [origin release];
-    origin = nil;
 
     return 0;
 }

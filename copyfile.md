@@ -18,7 +18,7 @@ On macOS 12.0 or newer, JSON5 is used.
 A UTF-8 encoded file to be copied.
 
 ### EXIT STATUS  
-If **copyfile** can fine <u>filename</u>, it exits with status code 0.
+If **copyfile** can find <u>filename</u>, it exits with status code 0.
 
 ### FILE STRUCTURE  
 **copyfile** supports variable substitution.
