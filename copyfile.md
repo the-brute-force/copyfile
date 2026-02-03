@@ -33,15 +33,15 @@ The inclusion operator (**#!**) includes the file path that follows relative to 
 `#!./README.md` will include the file `./README.md`.
 If the first two bytes of a file are the inclusion operator, that line is skipped.
 If another file needs to be included immediately, preceding it with an empty variable (**#""**) will allow that.
-> [!NOTE]  
-> There can only be one inclusion operator on a line.
-> Only the last inclusion operator on a line is used.
+**NOTE:**
+There can only be one inclusion operator on a line.
+Only the last inclusion operator on a line is used.
 
 The environmental inclusion operator (**#!""**) includes the file the variable is set to.
 `#!"example"` will include the file specified by the value of example.
 If example is set to `README.md` then `#!"example"` will include the file `README.md`
-> [!NOTE]  
-> Environmental inclusions are relative to <u>filename</u>
+**NOTE:**
+Environmental inclusions are relative to <u>filename</u>
 
 ### AUTHORS  
 Harry N
