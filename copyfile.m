@@ -158,7 +158,7 @@ NSString *replaceVariables(NSString *input)
 
                 // Don't try to look for a file with no name
                 if ([varContent length] != 0) {
-                    NSString *fileContent = includeFile(varContent, YES);
+                    NSString *fileContent = includeFile(varContent, NO);
                     varContent = fileContent;
                 }
             }
