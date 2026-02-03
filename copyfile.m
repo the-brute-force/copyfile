@@ -12,8 +12,7 @@
 static NSDictionary<NSString *, NSString *> *environment = nil;
 static NSString *origin = nil;
 
-static BOOL ignoreEmptyLines = YES;
-static BOOL appendSpaces = YES;
+static BOOL newlinesAreSpaces = YES;
 
 NSString *replaceVariables(NSString * restrict input);
 
@@ -63,27 +62,29 @@ NSString *includeFile(NSString * restrict fileName, NSString *workingDirectory)
                 continue;
         }
 
-        if ([line length] == 0) {
-            if (!ignoreEmptyLines) {
-                // The lines are split, so this newline is assumed
-                [processedFile appendString:@"\n"];
+        NSUInteger lineLength = [line length];
 
-                if (appendSpaces)
-                    [processedFile appendString:@" "];
-            }
-
+        if (lineLength == 0)
             continue;
-        }
 
-        if (appendSpaces && [processedFile length] != 0) {
-            [processedFile appendString:@" "];
+        NSUInteger processedFileLength = [processedFile length];
+
+        // Append a character if it's not already there
+        if (processedFileLength != 0) {
+            unichar finalCharacter = [processedFile characterAtIndex:processedFileLength-1];
+            
+            if (!newlinesAreSpaces && ![[NSCharacterSet newlineCharacterSet] characterIsMember:finalCharacter]) {
+                [processedFile appendString:@"\n"];
+            } else if (newlinesAreSpaces && finalCharacter != 0x20) {
+                [processedFile appendString:@" "];
+            }
         }
 
         // Find the final inclusion if it exists
         NSRange range = [line rangeOfString:@"#!" options:NSBackwardsSearch];
 
         // Check if it's an environmental inclusion
-        if (range.location != NSNotFound && range.location < [line length]-4 && [line characterAtIndex:range.location+3] != 0x22) {
+        if (range.location != NSNotFound && range.location < lineLength-2 && [line characterAtIndex:range.location+2] != 0x22) {
             NSString *includePath = [[line substringFromIndex:range.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
             // Combine current working directory with the included path
@@ -269,18 +270,11 @@ int main(int argc, const char *argv[])
 
     origin = [baseFile stringByDeletingLastPathComponent];
 
-    char *emptyLinesVar = getenv("COPYFILE_EMPTY_LINES");
-    if (emptyLinesVar != NULL) {
-        ignoreEmptyLines = !(strcasecmp(emptyLinesVar, "yes") == 0 || strcasecmp(emptyLinesVar, "true") == 0 || strcmp(emptyLinesVar, "1") == 0);
-        free(emptyLinesVar);
-        emptyLinesVar = NULL;
-    }
-
-    char *lineEndingVar = getenv("COPYFILE_NO_SPACES");
-    if (lineEndingVar != NULL) {
-        appendSpaces = !(strcasecmp(lineEndingVar, "yes") == 0 || strcasecmp(lineEndingVar, "true") == 0 || strcmp(lineEndingVar, "1") == 0);
-        free(lineEndingVar);
-        lineEndingVar = NULL;
+    char *useNewLines = getenv("COPYFILE_USE_NEWLINES");
+    if (useNewLines != NULL) {
+        newlinesAreSpaces = !(strcasecmp(useNewLines, "yes") == 0 || strcasecmp(useNewLines, "true") == 0 || strcmp(useNewLines, "1") == 0);
+        free(useNewLines);
+        useNewLines = NULL;
     }
 
     if (argc > 2) {

@@ -41,7 +41,7 @@ The environmental inclusion operator (**#!""**) includes the file the variable i
 `#!"example"` will include the file specified by the value of example.
 If example is set to `README.md` then `#!"example"` will include the file `README.md`
 **NOTE:**
-Environmental inclusions are relative to <u>filename</u>
+Environmental inclusions are relative to <u>filename</u>.
 
 ### AUTHORS  
 Harry N
