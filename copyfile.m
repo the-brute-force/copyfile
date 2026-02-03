@@ -17,26 +17,30 @@ static BOOL appendSpaces = YES;
 
 NSString *replaceVariables(NSString *input);
 
-NSString *includeFile(NSString *path, BOOL useOrigin)
+NSString *includeFile(NSString *fileName, NSString *workingDirectory)
 {
-    if (path == nil)
+    if (fileName == nil)
         return @"";
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *original = [fileManager currentDirectoryPath];
-
-    if (origin != nil && useOrigin) {
-        [fileManager changeCurrentDirectoryPath:origin];
-    } else {
-        [fileManager changeCurrentDirectoryPath:[path stringByDeletingLastPathComponent]];
+    NSString *original = nil;
+    
+    if (workingDirectory != nil) {
+        original = [fileManager currentDirectoryPath];
+        [fileManager changeCurrentDirectoryPath:workingDirectory];
     }
 
-    NSData *fileData = [fileManager contentsAtPath:path];
-    [fileManager changeCurrentDirectoryPath:original];
-    original = nil;
+    NSData *fileData = [fileManager contentsAtPath:fileName];
+
+    if (workingDirectory != nil) {
+        [fileManager changeCurrentDirectoryPath:original];
+        original = nil;
+    } else {
+        workingDirectory = @"";
+    }
 
     if (fileData == nil) {
-        NSLog(@"Unable to read the file \"%@\".", path);
+        NSLog(@"Unable to read the file \"%@\".", fileName);
         return @"";
     }
 
@@ -82,8 +86,13 @@ NSString *includeFile(NSString *path, BOOL useOrigin)
         if (range.location != NSNotFound && range.location < [line length]-4 && [line characterAtIndex:range.location+2] != 0x22) {
             if ([line characterAtIndex:range.location] == 0x23 && [line characterAtIndex:range.location+1] == 0x21) {
                 NSString *includePath = [[line substringFromIndex:range.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                [processedFile appendString:includeFile(includePath, NO)];
-                includePath = nil;
+
+                // Combine current working directory with the included path
+                NSArray<NSString *> *futureComponents = [[NSArray alloc] initWithObjects:workingDirectory, [includePath stringByDeletingLastPathComponent], nil];
+                NSString *futureWorkingDirectory = [NSString pathWithComponents:futureComponents];
+                futureComponents = nil;
+
+                [processedFile appendString:includeFile(includePath, futureWorkingDirectory)];
                 continue;
             }
         }
@@ -158,7 +167,7 @@ NSString *replaceVariables(NSString *input)
 
                 // Don't try to look for a file with no name
                 if ([varContent length] != 0) {
-                    NSString *fileContent = includeFile(varContent, YES);
+                    NSString *fileContent = includeFile(varContent, origin);
                     varContent = fileContent;
                 }
             }
@@ -283,7 +292,7 @@ int main(int argc, const char *argv[])
             NSLog(@"Error reading environment file, continuing without environment variables...");
     }
 
-    NSString *fileContent = includeFile(baseFile, YES);
+    NSString *fileContent = includeFile(baseFile, origin);
 
     if ([fileContent length] != 0) {
         NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
