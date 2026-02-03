@@ -273,7 +273,6 @@ int main(int argc, const char *argv[])
     char *useNewLines = getenv("COPYFILE_USE_NEWLINES");
     if (useNewLines != NULL) {
         newlinesAreSpaces = !(strcasecmp(useNewLines, "yes") == 0 || strcasecmp(useNewLines, "true") == 0 || strcmp(useNewLines, "1") == 0);
-        free(useNewLines);
         useNewLines = NULL;
     }
 
