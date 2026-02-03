@@ -64,6 +64,9 @@ If the first two bytes of a file are the inclusion operator, that line is skippe
 If another file needs to be included immediately, preceding it with an empty variable
 .Pq Sy #""
 will allow that.
+.Em NOTE:
+There can only be one inclusion operator on a line.
+Only the last inclusion operator on a line is used.
 
 The environmental inclusion operator
 .Pq Sy #!""

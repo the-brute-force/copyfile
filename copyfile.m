@@ -15,9 +15,9 @@ static NSString *origin = nil;
 static BOOL ignoreEmptyLines = YES;
 static BOOL appendSpaces = YES;
 
-NSString *replaceVariables(NSString *input);
+NSString *replaceVariables(NSString * restrict input);
 
-NSString *includeFile(NSString *fileName, NSString *workingDirectory)
+NSString *includeFile(NSString * restrict fileName, NSString *workingDirectory)
 {
     if (fileName == nil)
         return @"";
@@ -79,22 +79,20 @@ NSString *includeFile(NSString *fileName, NSString *workingDirectory)
             [processedFile appendString:@" "];
         }
 
-        NSCharacterSet *notWhitespace = [[NSCharacterSet whitespaceCharacterSet] invertedSet];
-        NSRange range = [line rangeOfCharacterFromSet:notWhitespace];
-        notWhitespace = nil;
+        // Find the final inclusion if it exists
+        NSRange range = [line rangeOfString:@"#!" options:NSBackwardsSearch];
 
-        if (range.location != NSNotFound && range.location < [line length]-4 && [line characterAtIndex:range.location+2] != 0x22) {
-            if ([line characterAtIndex:range.location] == 0x23 && [line characterAtIndex:range.location+1] == 0x21) {
-                NSString *includePath = [[line substringFromIndex:range.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        // Check if it's an environmental inclusion
+        if (range.location != NSNotFound && range.location < [line length]-4 && [line characterAtIndex:range.location+3] != 0x22) {
+            NSString *includePath = [[line substringFromIndex:range.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-                // Combine current working directory with the included path
-                NSArray<NSString *> *futureComponents = [[NSArray alloc] initWithObjects:workingDirectory, [includePath stringByDeletingLastPathComponent], nil];
-                NSString *futureWorkingDirectory = [NSString pathWithComponents:futureComponents];
-                futureComponents = nil;
+            // Combine current working directory with the included path
+            NSArray<NSString *> *futureComponents = [[NSArray alloc] initWithObjects:workingDirectory, [includePath stringByDeletingLastPathComponent], nil];
+            NSString *futureWorkingDirectory = [NSString pathWithComponents:futureComponents];
+            futureComponents = nil;
 
-                [processedFile appendString:includeFile(includePath, futureWorkingDirectory)];
-                continue;
-            }
+            [processedFile appendString:includeFile(includePath, futureWorkingDirectory)];
+            continue;
         }
 
         [processedFile appendString:replaceVariables(line)];
@@ -103,7 +101,7 @@ NSString *includeFile(NSString *fileName, NSString *workingDirectory)
     return processedFile;
 }
 
-NSString *replaceVariables(NSString *input)
+NSString *replaceVariables(NSString * restrict input)
 {
     if (input == nil)
         return @"";
