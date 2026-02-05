@@ -92,7 +92,10 @@ NSString *includeFile(NSString * restrict fileName, NSString *workingDirectory)
             NSString *futureWorkingDirectory = [NSString pathWithComponents:futureComponents];
             futureComponents = nil;
 
-            [processedFile appendString:includeFile(includePath, futureWorkingDirectory)];
+            NSString *fileName = [includePath lastPathComponent];
+            includePath = nil;
+
+            [processedFile appendString:includeFile(fileName, futureWorkingDirectory)];
             continue;
         }
 
@@ -269,6 +272,7 @@ int main(int argc, const char *argv[])
     }
 
     origin = [baseFile stringByDeletingLastPathComponent];
+    baseFile = [baseFile lastPathComponent];
 
     char *useNewLines = getenv("COPYFILE_USE_NEWLINES");
     if (useNewLines != NULL) {
